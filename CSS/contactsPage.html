@@ -1,0 +1,107 @@
+<!-- Tells the browser what type of document this is, in this case, html -->
+<!DOCTYPE html>
+<!-- Every html page has to start with a html tag -->
+<html lang="en">
+  <!-- Head contains information about your page -->
+  <head>
+    <title>Your Contacts</title>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="HTML, CSS, JavaScript, Contacts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- External Stylesheet -->
+    <!-- <link rel="stylesheet" type="text/css" href="contactsPageStyles.css"> -->
+    <!-- Internal styling -->
+    <style>
+      body {
+        background-image: url("../assets/bg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .button {
+        height: 30px;
+        width: 100px;
+      }
+      .contact-cards-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .card-box {
+        border: 2px solid black;
+        height: 100px;
+        width: 50%;
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        background-color: white;
+      }
+      .profile-picture {
+        border-radius: 50%;
+        margin: 10px;
+        height: 70px;
+        width: 70px;
+      }
+      .info-column {
+        display: flex;
+        flex-direction: column;
+        margin: 30px;
+      }
+    </style>
+  </head>
+
+  <!-- Body with Background -->
+  <body>
+    <!-- Body without background -->
+    <!-- <body> -->
+    <!-- Header -->
+    <header>
+      <h1>Your Contacts</h1>
+      <button class="button">Logout</button>
+    </header>
+
+    <!-- Contact cards div -->
+    <div class="contact-cards-container">
+      <!-- Card container 1-->
+      <div class="card-box">
+        <img src="../assets/user.png" alt="User" class="profile-picture" />
+        <div class="info-column">
+          <span><b>Robert Doe</b></span>
+          <span>Father</span>
+        </div>
+        <div class="info-column">
+          <span><b>Phone Number</b></span>
+          <span>+91-9999955555</span>
+        </div>
+        <div class="info-column">
+          <span><b>Email ID</b></span>
+          <span>robert.doe@example.com</span>
+        </div>
+      </div>
+      <!-- Card container 2-->
+      <div class="card-box">
+        <img src="../assets/user.png" alt="User" class="profile-picture" />
+        <div class="info-column">
+          <span><b>John Doe</b></span>
+          <span>Brother</span>
+        </div>
+        <div class="info-column">
+          <span><b>Phone Number</b></span>
+          <span>+91-9999999999</span>
+        </div>
+        <div class="info-column">
+          <span><b>Email ID</b></span>
+          <span>john.doe@example.com</span>
+        </div>
+      </div>
+
+      <!-- Add contact button -->
+      <button class="button">Add Contact</button>
+    </div>
+  </body>
+</html>
