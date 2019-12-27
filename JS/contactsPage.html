@@ -1,0 +1,132 @@
+<!-- Tells the browser what type of document this is, in this case, html -->
+<!DOCTYPE html>
+<!-- Every html page has to start with a html tag -->
+<html lang="en">
+  <!-- Head contains information about your page -->
+  <head>
+    <title>Your Contacts</title>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="HTML, CSS, JavaScript, Contacts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="contactsPageStyles.css" />
+    <script src="contactsPage.js"></script>
+  </head>
+
+  <!-- Body with Background -->
+  <body>
+    <!-- Body without background -->
+    <!-- <body> -->
+    <!-- Header -->
+    <header>
+      <h1>Your Contacts</h1>
+      <button class="button">Logout</button>
+    </header>
+
+    <!-- Contact cards div -->
+    <div class="contact-cards-container" id="contactContainer">
+      <!-- Card container 1-->
+      <div class="card-box">
+        <img src="../assets/user.png" alt="User" class="profile-picture" />
+        <div class="info-column">
+          <span><b>Robert Doe</b></span>
+          <span>Father</span>
+        </div>
+        <div class="info-column">
+          <span><b>Phone Number</b></span>
+          <span>+91-9999955555</span>
+        </div>
+        <div class="info-column">
+          <span><b>Email ID</b></span>
+          <span>robert.doe@example.com</span>
+        </div>
+      </div>
+      <!-- Card container 2-->
+      <div class="card-box">
+        <img src="../assets/user.png" alt="User" class="profile-picture" />
+        <div class="info-column">
+          <span><b>John Doe</b></span>
+          <span>Brother</span>
+        </div>
+        <div class="info-column">
+          <span><b>Phone Number</b></span>
+          <span>+91-9999999999</span>
+        </div>
+        <div class="info-column">
+          <span><b>Email ID</b></span>
+          <span>john.doe@example.com</span>
+        </div>
+      </div>
+
+      <!-- Add contact button -->
+    </div>
+    <div style="display: flex; justify-content: center;">
+      <button class="button" onclick="addContact()">Add Contact</button>
+    </div>
+  </body>
+</html>
+
+<!-- Internal JavaScript -->
+<!-- <script>
+  const addContact = () => {
+    let container = document.getElementById("contactContainer");
+    let cardBox = document.createElement("div");
+    cardBox.classList.add("card-box");
+
+    let image = document.createElement("img");
+    image.classList.add("profile-picture");
+    image.setAttribute("alt", "user");
+    image.setAttribute("src", "../assets/user.png");
+    cardBox.appendChild(image);
+
+    let infoColumn = document.createElement("div");
+    infoColumn.classList.add("info-column");
+
+    let boldName = document.createElement("b");
+    boldName.appendChild(document.createTextNode("Jane Doe"));
+
+    let name = document.createElement("span");
+    name.appendChild(boldName);
+
+    let relation = document.createElement("span");
+    relation.appendChild(document.createTextNode("Girlfriend"));
+
+    infoColumn.appendChild(name);
+    infoColumn.appendChild(relation);
+    cardBox.appendChild(infoColumn);
+
+    infoColumn = document.createElement("div");
+    infoColumn.classList.add("info-column");
+
+    boldName = document.createElement("b");
+    boldName.appendChild(document.createTextNode("Phone Number"));
+
+    name = document.createElement("span");
+    name.appendChild(boldName);
+
+    relation = document.createElement("span");
+    relation.appendChild(document.createTextNode("+91-8172639172"));
+
+    infoColumn.appendChild(name);
+    infoColumn.appendChild(relation);
+    cardBox.appendChild(infoColumn);
+
+    infoColumn = document.createElement("div");
+    infoColumn.classList.add("info-column");
+
+    boldName = document.createElement("b");
+    boldName.appendChild(document.createTextNode("Email ID"));
+
+    name = document.createElement("span");
+    name.appendChild(boldName);
+
+    relation = document.createElement("span");
+    relation.appendChild(document.createTextNode("jane.doe@gmail.com"));
+
+    infoColumn.appendChild(name);
+    infoColumn.appendChild(relation);
+    cardBox.appendChild(infoColumn);
+
+    container.appendChild(cardBox);
+  };
+</script> -->
