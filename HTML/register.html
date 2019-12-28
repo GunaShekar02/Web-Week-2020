@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registration Form</title>
+</head>
+<body>
+    <form method="post" action="/register">
+		<div class="registrationbox">
+		<img src="../assets/user.jpg" >
+		<h1>Registration Form</h1>
+		<form>
+			<label>Username:
+                <input type="text" name="username" placeholder="Enter Username" required>
+            </label><br>
+
+            <label>Email:
+                <input type="email" name="email" placeholder="Enter Email" required>
+            </label><br>
+
+            <label>Gender: 
+               <input type="radio" name="gender" value="male" checked> Male
+               <input type="radio" name="gender" value="female"> Female<br>
+            </label>
+			
+			<label>Password:
+                <input type="Password" name="password" placeholder="Enter Password" required>
+            </label><br>
+			
+			<label>Confirm Password:
+                <input type="Password" name="confirm" placeholder="Enter Password" required>
+            </label><br>
+			
+			<label>Events:<br>
+			<input type="checkbox" name="events" value="music">Music<br>
+			<input type="checkbox" name="events" value="dance">Dance<br>
+			<input type="checkbox" name="events" value="art">Art<br>
+			<input type="checkbox" name="events" value="fashion">Fashion Show<br>
+            <input type="checkbox" name="events" value="informal">Informal Events<br>
+            </label>
+			<label>Contact Number:</label>
+			<input type="text" name="contact" placeholder="Enter Your Phone Number" required><br>
+			<input type="submit">
+		</form>
+</div>
+</body>
+</html>
