@@ -20,8 +20,23 @@
     <!-- Header -->
     <header>
       <h1>Your Contacts</h1>
-      <button class="button">Logout</button>
+      <button class="button" id="logoutButton">Logout</button>
+      <div class="menu-mobile-view">
+        <div class="menu-icon-container" onclick="toggleMenu()" style="display: block;">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div class="menu-cross-container" onclick="toggleMenu()" style="display: none;">
+          <div class="menu-cross-left"></div>
+          <div class="menu-cross-right"></div>
+        </div>
+      </div>
     </header>
+
+    <div class="menu-container" style="display: none;">
+      <button class="button">Logout</button>
+    </div>
 
     <!-- Contact cards div -->
     <div class="contact-cards-container" id="contactContainer">

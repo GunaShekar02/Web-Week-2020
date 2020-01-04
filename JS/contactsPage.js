@@ -9,7 +9,7 @@ const addContact = () => {
       value: "+91-8888888888"
     },
     {
-      key: "Email",
+      key: "Email ID",
       value: "jane.doe@example.com"
     }
   ];
@@ -44,4 +44,31 @@ const addContact = () => {
   }
 
   container.appendChild(cardBox);
+};
+
+const toggleMenu = () => {
+  let menuIcon = document.getElementsByClassName("menu-icon-container")[0];
+  let cross = document.getElementsByClassName("menu-cross-container")[0];
+  let menuContainer = document.querySelector(".menu-container");
+
+  menuIcon.style.display = menuIcon.style.display === "none" ? "block" : "none";
+  cross.style.display = cross.style.display === "none" ? "block" : "none";
+  menuContainer.style.display =
+    menuContainer.style.display === "none" ? "block" : "none";
+};
+
+window.addEventListener("resize", () => hideMobileMenu());
+
+const hideMobileMenu = () => {
+  if (window.outerWidth > 1250) {
+    let menuContainer = document.querySelector(".menu-container");
+    if (menuContainer.style.display !== "none") {
+      menuContainer.style.display = "none";
+      let menuIcon = document.getElementsByClassName("menu-icon-container")[0];
+      let cross = document.getElementsByClassName("menu-cross-container")[0];
+
+      menuIcon.style.display = "block";
+      cross.style.display = "none";
+    }
+  }
 };
