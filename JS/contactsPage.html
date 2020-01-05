@@ -22,12 +22,20 @@
       <h1>Your Contacts</h1>
       <button class="button" id="logoutButton">Logout</button>
       <div class="menu-mobile-view">
-        <div class="menu-icon-container" onclick="toggleMenu()" style="display: block;">
+        <div
+          class="menu-icon-container"
+          onclick="toggleMenu()"
+          style="display: block;"
+        >
           <div></div>
           <div></div>
           <div></div>
         </div>
-        <div class="menu-cross-container" onclick="toggleMenu()" style="display: none;">
+        <div
+          class="menu-cross-container"
+          onclick="toggleMenu()"
+          style="display: none;"
+        >
           <div class="menu-cross-left"></div>
           <div class="menu-cross-right"></div>
         </div>
@@ -42,7 +50,6 @@
     <div class="contact-cards-container" id="contactContainer">
       <!-- Card container 1-->
       <div class="card-box">
-        <img src="../assets/user.png" alt="User" class="profile-picture" />
         <div class="info-column">
           <span><b>Robert Doe</b></span>
           <span>Father</span>
@@ -58,7 +65,6 @@
       </div>
       <!-- Card container 2-->
       <div class="card-box">
-        <img src="../assets/user.png" alt="User" class="profile-picture" />
         <div class="info-column">
           <span><b>John Doe</b></span>
           <span>Brother</span>
@@ -72,9 +78,47 @@
           <span>john.doe@example.com</span>
         </div>
       </div>
-
-      <!-- Add contact button -->
     </div>
+
+    <!-- Add contact modal -->
+    <div class="modal-container">
+      <div class="modal">
+        <form class="modal-form">
+          <div>
+            <label>Name : </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Enter Name"
+            />
+          </div>
+          <div>
+          <label>Relationship : </label>
+          <input
+            type="text"
+            name="relationship"
+            id="relationship"
+            placeholder="Enter Relationship"
+          />
+        </div>
+        <div>
+          <label>Phone Number : </label>
+          <input
+            type="text"
+            name="phone"
+            id="phone"
+            placeholder="Phone Number"
+          />
+        </div>
+        <div>
+          <label>Email ID : </label>
+          <input type="text" name="email" id="email" placeholder="Email ID" />
+        </div>
+        </form>
+      </div>
+    </div>
+    <!-- Add contact button -->
     <div style="display: flex; justify-content: center;">
       <button class="button" onclick="addContact()">Add Contact</button>
     </div>

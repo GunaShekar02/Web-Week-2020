@@ -19,12 +19,6 @@ const addContact = () => {
   let cardBox = document.createElement("div");
   cardBox.classList.add("card-box");
 
-  let image = document.createElement("img");
-  image.classList.add("profile-picture");
-  image.setAttribute("alt", "user");
-  image.setAttribute("src", "../assets/user.png");
-  cardBox.appendChild(image);
-
   for (let i = 0; i < details.length; ++i) {
     let infoColumn = document.createElement("div");
     infoColumn.classList.add("info-column");
