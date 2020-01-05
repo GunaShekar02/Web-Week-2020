@@ -3,14 +3,15 @@ body{
 	margin: 0px;
 	background: url('../assets/bg_image.jpg') no-repeat;
 	height:100%;
-	background-attachment: fixed;
+	background-attachment: fixed; 
     background-position: center center;
 	background-size: cover;
 	font-family: sans-serif;
 }
+
 .registrationbox{
-	width: 400px;
-	height: 830px;
+	width: 30%;
+	min-width: 350px;
 	background: black;
 	color: #fff;
 	top:65%;
@@ -18,8 +19,9 @@ body{
 	position: absolute;
     transform: translate(-50%,-50%);
     box-sizing: border-box;
-    padding: 70px 30px;
-    border-radius:20px;
+    padding: 40px 30px;
+	border-radius:20px;
+	margin-bottom: 30px;
 }
 #user{
 	width: 100px;
