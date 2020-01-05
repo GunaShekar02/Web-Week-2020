@@ -2,6 +2,8 @@ body{
 	padding: 0px;
 	margin: 0px;
 	background: url('../assets/bg_image.jpg') no-repeat;
+	background-attachment: fixed;
+        background-position: center center;
 	background-size: cover;
 	font-family: sans-serif;
 }
