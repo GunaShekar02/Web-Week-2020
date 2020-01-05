@@ -1,6 +1,7 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -9,7 +10,9 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('./public'));
 // Express body parser
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(session({
   secret: 'seCReT',
