@@ -16,6 +16,7 @@ body{
 	position:absolute;
 	top:28%;
 	left:38%;
+	transform:translate(-25%,-25%);
   
     box-sizing: border-box;
    padding: 70px 30px; /*top,right,bottom,left*/
@@ -28,7 +29,7 @@ body{
 	border-radius:50%;
 	position:absolute;
 	top:-50px;
-	left: 33%;
+	left: 40%;
 }
 h1{
 	margin: 0;
