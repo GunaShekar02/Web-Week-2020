@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .box {
+        height: 100px;
+        width: 100px;
+        background-color: blue;
+        transition: all 2s ease;
+      }
+      .box:hover {
+        height: 200px;
+        width: 200px;
+      }
+      .hamburger {
+        margin: 50px;
+      }
+      .hamburger div {
+        height: 10px;
+        width: 100px;
+        background-color: black;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+      }
+
+      /* @keyframes boxMovement {
+        0% {
+          width: 100px;
+        }
+        25% {
+          width: 700px;
+        }
+        75% {
+          width: 300px;
+        }
+        100% {
+          width: 0px;
+        }
+      } */
+    </style>
+  </head>
+  <body>
+    <div class="box" onclick="keyframesFunction()"></div>
+    <div class="hamburger" onclick="myFunction()">
+      <div id="line1"></div>
+      <div id="line2"></div>
+      <div id="line3"></div>
+    </div>
+  </body>
+</html>
+
+<script>
+  const myFunction = () => {
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    const line3 = document.getElementById("line3");
+    line2.style.backgroundColor = "transparent";
+    line1.style.position = "absolute";
+    line2.style.position = "absolute";
+    line3.style.position = "absolute";
+    line1.style.transform = "rotate(45deg)";
+    line3.style.transform = "rotate(-45deg)";
+  };
+
+  const keyframesFunction = () => {
+    const box = document.getElementsByClassName("box")[0];
+    box.style.animation = "boxMovement 5s";
+    setTimeout(() => {
+      box.style.animation = "";
+    },5000);
+  }
+
+</script>
