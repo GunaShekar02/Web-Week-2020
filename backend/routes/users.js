@@ -8,11 +8,8 @@ let user
 router.get("/register", (req, res) => {
   if (!req.session.user) {
     res.statusCode = 200
-    // res.setHeader('Content-Type', 'application/json');
-    // res.send('Register page would be rendered in browser!');
-    res.render("register")
+    res.send('register form will be here')
   } else res.send("Not possible as you are logged in already")
-  // else res.redirect('/dashboard?logout+for+that');
 })
 
 router.post("/register", (req, res) => {
@@ -35,22 +32,10 @@ router.post("/register", (req, res) => {
     [email],
     (err, rows) => {
       if (err) res.status(500).send(err)
-      // console.log(JSON.stringify(rows));
-      // rowLength = rows.length;
       if (rows.length) errors.push({ msg: "Email already exists" })
       if (errors.length > 0) {
         res.statusCode = 400
         res.send(errors)
-        // console.log('errors', errors);
-        // res.render('register', {
-        //   errors,
-        //   name,
-        //   email,
-        //   password,
-        //   password2,
-        //   city,
-        //   phone
-        // });
       } else {
         pwdHash = bcrypt.hashSync(password, 10)
         var sql = `INSERT INTO users (name, email, phone, pwdHash) VALUES ?`
@@ -60,7 +45,6 @@ router.post("/register", (req, res) => {
           if (err) res.status(500).send(err)
         })
         res.send("successfully registered")
-        // res.redirect('/users/login?UserRegSuccess');
       }
     },
   )
@@ -68,10 +52,8 @@ router.post("/register", (req, res) => {
 
 router.get("/login", (req, res) => {
   if (!req.session.user)
-    // res.send('success');
     res.render("login")
   else res.status(401).send("nope, logout")
-  // else res.redirect('/dashboard?logout+for+that');
 })
 
 router.post("/login", (req, res) => {
@@ -87,15 +69,11 @@ router.post("/login", (req, res) => {
         if (result) {
           req.session.user = user
           res.status(200).send(user)
-          // res.send(`<script>alert('success')</script>`);
-          // res.redirect('/dashboard');
         } else {
           res.status(400).send("pwd incorrect")
         }
-        // else res.redirect('/users/login?Pwds+donot+match');
       } else {
         res.status(400).send("email doesnot exist")
-        // res.redirect('/users/login?email+does+not+exist');
       }
     },
   )
@@ -105,7 +83,6 @@ router.get("/logout", (req, res, next) => {
   if (req.session.user) {
     req.session.destroy(() => {
       res.status(200).send("logout success")
-      // res.redirect('/users/login?logout+success');
     })
   } else {
     res.status(400).send("you are not logged in")
@@ -129,15 +106,12 @@ router.post("/contacts", (req, res) => {
         if (err) res.status(500).send(err)
         res.send("contact saved")
       })
-      // res.redirect('/dashboard?contact+added');
     }
   } else res.send("login to post")
-  // else res.redirect('/users/login?login to post');
 })
 
 router.get("/contacts", (req, res) => {
   if (req.session.user) {
-    // res.send(req.session.contacts);
     mySqlConnection.query(
       "SELECT * FROM contacts WHERE userID = ?",
       [req.session.user.userID],
@@ -145,16 +119,13 @@ router.get("/contacts", (req, res) => {
         if (err) res.status(500).send(err)
         req.session.contacts = rows
         res.status(200).send(rows)
-        // res.render('view', {title: 'Contacts list', contacts: rows});
       },
     )
   } else res.status(401).send("login to view")
-  // } else res.redirect('/users/login?login to view');
 })
 
 router.get("/contacts/:contactID", (req, res) => {
   if (req.session.user) {
-    // res.render('contacts', {title: 'Edit Contact', contact: found});
     mySqlConnection.query(
       "SELECT * FROM contacts WHERE contactID = ? AND userID = ?",
       [req.params.contactID, req.session.user.userID],
@@ -162,7 +133,6 @@ router.get("/contacts/:contactID", (req, res) => {
         if (err) res.status(500).send(err)
         if (rows.length) res.status(200).send(rows[0])
         else res.status(404).send("contact not found")
-        // res.render('contacts', {title: 'Edit Contact', contact: rows[0]});
       },
     )
   } else {
@@ -186,11 +156,9 @@ router.post("/contacts/:contactID", (req, res) => {
             err => {
               if (err) res.status(500).send(err)
               res.status(200).send("updated")
-              // res.redirect('/dashboard');
             },
           )
         }
-        // res.render('contacts', {title: 'Edit Contact', contact: rows[0]});
       },
     )
   } else res.status(401).send("login to update")
@@ -210,7 +178,6 @@ router.get("/contacts/delete/:contactID", (req, res) => {
             (err, rows) => {
               if (err) res.status(500).send(err)
               res.status(200).send(`deleted successfully`)
-              // res.redirect('/dashboard?delete successful');
             },
           )
         }
@@ -223,7 +190,6 @@ router.get("/contacts/delete/:contactID", (req, res) => {
 router.post("/update", (req, res) => {
   if (req.session.user) {
     const { name, phone } = req.body
-    console.log(req.body)
     mySqlConnection.query(
       "UPDATE users SET name=?, phone=? WHERE userID = ?",
       [name, phone, req.session.user.userID],
@@ -234,7 +200,6 @@ router.post("/update", (req, res) => {
       },
     )
   } else res.send("please login")
-  // else res.redirect('/users/login');
 })
 
 module.exports = router
