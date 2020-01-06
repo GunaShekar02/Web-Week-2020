@@ -94,8 +94,8 @@ router.post('/login', (req, res) => {
 
 router.get('/logout', (req, res, next) => {
   if (req.session.user) {
-    // console.log('session exists');
-      req.session.destroy(function() {
+
+      req.session.destroy(() => {
           res.redirect('/users/login?logout+success');
       });
   }
