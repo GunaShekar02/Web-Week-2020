@@ -81,8 +81,12 @@
     </div>
 
     <!-- Add contact modal -->
-    <div class="modal-container">
+    <div class="modal-container" style="display: none;" id="modal-container">
       <div class="modal">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h2> ADD A NEW CONTACT </h2>
+        <h2 onclick="closeModal()" style="cursor: pointer;">&times;</h2>
+      </div>
         <form class="modal-form">
           <div>
             <label>Name : </label>
@@ -115,6 +119,7 @@
           <label>Email ID : </label>
           <input type="text" name="email" id="email" placeholder="Email ID" />
         </div>
+        <button type="submit">Add</button>
         </form>
       </div>
     </div>

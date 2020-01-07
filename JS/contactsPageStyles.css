@@ -2,6 +2,9 @@ body {
   background-image: url("../assets/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
 }
 header {
   display: flex;
@@ -86,9 +89,46 @@ header {
   display: none;
 }
 
+@keyframes modalFadeIn {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes modalFadeOut {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 .modal-container {
   display: flex;
   justify-content: center;
+  position: absolute;
+  align-self: center;
+  top: 30%;
 }
 
 .modal {
@@ -105,6 +145,7 @@ header {
 form div {
   display: flex;
   flex-wrap: wrap;
+  margin: 10px;
 }
 form div label {
   width: 30%;

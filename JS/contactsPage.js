@@ -1,44 +1,44 @@
-const addContact = () => {
-  const details = [
-    {
-      key: "Jane Doe",
-      value: "Girlfriend"
-    },
-    {
-      key: "Phone Number",
-      value: "+91-8888888888"
-    },
-    {
-      key: "Email ID",
-      value: "jane.doe@example.com"
-    }
-  ];
+// const addContact = () => {
+//   const details = [
+//     {
+//       key: "Jane Doe",
+//       value: "Girlfriend"
+//     },
+//     {
+//       key: "Phone Number",
+//       value: "+91-8888888888"
+//     },
+//     {
+//       key: "Email ID",
+//       value: "jane.doe@example.com"
+//     }
+//   ];
 
-  let container = document.getElementById("contactContainer");
+//   let container = document.getElementById("contactContainer");
 
-  let cardBox = document.createElement("div");
-  cardBox.classList.add("card-box");
+//   let cardBox = document.createElement("div");
+//   cardBox.classList.add("card-box");
 
-  for (let i = 0; i < details.length; ++i) {
-    let infoColumn = document.createElement("div");
-    infoColumn.classList.add("info-column");
+//   for (let i = 0; i < details.length; ++i) {
+//     let infoColumn = document.createElement("div");
+//     infoColumn.classList.add("info-column");
 
-    let boldName = document.createElement("b");
-    boldName.appendChild(document.createTextNode(details[i].key));
+//     let boldName = document.createElement("b");
+//     boldName.appendChild(document.createTextNode(details[i].key));
 
-    let name = document.createElement("span");
-    name.appendChild(boldName);
+//     let name = document.createElement("span");
+//     name.appendChild(boldName);
 
-    let relation = document.createElement("span");
-    relation.appendChild(document.createTextNode(details[i].value));
+//     let relation = document.createElement("span");
+//     relation.appendChild(document.createTextNode(details[i].value));
 
-    infoColumn.appendChild(name);
-    infoColumn.appendChild(relation);
-    cardBox.appendChild(infoColumn);
-  }
+//     infoColumn.appendChild(name);
+//     infoColumn.appendChild(relation);
+//     cardBox.appendChild(infoColumn);
+//   }
 
-  container.appendChild(cardBox);
-};
+//   container.appendChild(cardBox);
+// };
 
 const toggleMenu = () => {
   let menuIcon = document.getElementsByClassName("menu-icon-container")[0];
@@ -66,3 +66,17 @@ const hideMobileMenu = () => {
     }
   }
 };
+
+const addContact = () => {
+  const modal = document.getElementById("modal-container");
+  modal.style.display = "flex";
+  modal.style.animation = "modalFadeIn 0.5s";
+}
+
+const closeModal = () => {
+  const modal = document.getElementById("modal-container");
+  modal.style.animation = "modalFadeOut 0.5s";
+  setTimeout(() => {
+    modal.style.display = "none";
+  }, 400);
+}
