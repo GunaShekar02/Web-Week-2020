@@ -8,8 +8,11 @@ let user
 router.get("/register", (req, res) => {
   if (!req.session.user) {
     res.statusCode = 200
-    res.status(200).send('register form will be here')
-  } else res.status(401).send("Not possible as you are logged in already")
+    res.render("register")
+  } else {
+    res.status = 401
+    res.redirect("/dashboard?logout+first")
+  }
 })
 
 router.post("/register", (req, res) => {
@@ -31,29 +34,38 @@ router.post("/register", (req, res) => {
     "SELECT * FROM users WHERE email = ?",
     [email],
     (err, rows) => {
-      if (err) res.status(500).send(err)
+      if (err) {
+        res.status = 500
+        res.send(err)
+      }
       if (rows.length) errors.push({ msg: "Email already exists" })
       if (errors.length > 0) {
-        res.statusCode = 400
-        res.send(errors)
+        res.render('register', {errors, name, phone, email})
       } else {
         pwdHash = bcrypt.hashSync(password, 10)
         var sql = `INSERT INTO users (name, email, phone, pwdHash) VALUES ?`
         const values = [[name, email, phone, pwdHash]]
 
-        mySqlConnection.query(sql, [values], function(err) {
-          if (err) res.status(500).send(err)
+        mySqlConnection.query(sql, [values], err => {
+          if (err) {
+            res.status = 500
+            res.send(err)
+          }
         })
-        res.send("successfully registered")
+        res.redirect("/users/login?registered+successfully")
       }
     },
   )
 })
 
 router.get("/login", (req, res) => {
-  if (!req.session.user)
-    res.status(200).send("login page here!")
-  else res.status(401).send("nope, logout")
+  if (!req.session.user) {
+    res.statusCode = 200
+    res.render("login")
+  } else {
+    res.status = 401
+    res.redirect("/dashboard?logout+for+that")
+  }
 })
 
 router.post("/login", (req, res) => {
@@ -68,12 +80,12 @@ router.post("/login", (req, res) => {
         const result = bcrypt.compareSync(password, user.pwdHash)
         if (result) {
           req.session.user = user
-          res.status(200).send(user)
+          res.redirect('/dashboard?login+success');
         } else {
-          res.status(400).send("pwd incorrect")
+          res.render('login', { error: "passwords do not match", email });
         }
       } else {
-        res.status(400).send("email doesnot exist")
+        res.render('login', { error: "email doesnot exist" });
       }
     },
   )
@@ -82,20 +94,20 @@ router.post("/login", (req, res) => {
 router.get("/logout", (req, res, next) => {
   if (req.session.user) {
     req.session.destroy(() => {
-      res.status(200).send("logout success")
+      res.status = 200;
+      res.redirect('/users/login?logout+success');
     })
   } else {
     res.status(400).send("you are not logged in")
   }
 })
 
-
 router.post("/contacts", (req, res) => {
   if (req.session.user) {
     const { name, phone, relationship, email } = req.body
-    let errors = []
+
     if (!name || (!phone && !relationship))
-      errors.push({ msg: "name or both phone numbers cannot be empty" })
+      res.render('contacts', {error: "name or both phone numbers cannot be empty" })
     else {
       var sql = `INSERT INTO contacts (name, email, phone, relationship, userID) VALUES ?`
       const values = [
@@ -104,10 +116,13 @@ router.post("/contacts", (req, res) => {
 
       mySqlConnection.query(sql, [values], err => {
         if (err) res.status(500).send(err)
-        res.send("contact saved")
+        res.redirect("contacts")
       })
     }
-  } else res.send("login to post")
+  } else {
+    res.status = 501;
+    res.render('login', {error: "login first"})
+  }
 })
 
 router.get("/contacts", (req, res) => {
@@ -116,12 +131,15 @@ router.get("/contacts", (req, res) => {
       "SELECT * FROM contacts WHERE userID = ?",
       [req.session.user.userID],
       (err, rows) => {
-        if (err) res.status(500).send(err)
-        req.session.contacts = rows
-        res.status(200).send(rows)
+        if (err) {res.status(500).send(err)}
+        else {
+          res.status = 200
+          res.render('contacts', {contacts : rows, j:5,})
+        }
       },
     )
-  } else res.status(401).send("login to view")
+  } else {res.status = 401
+    res.redirect("/users/login?login+first")}
 })
 
 router.get("/contacts/:contactID", (req, res) => {
@@ -148,20 +166,29 @@ router.post("/contacts/:contactID", (req, res) => {
       [req.params.contactID, req.session.user.userID],
       (err, rows) => {
         if (err) res.status(500).send(err)
-        if (!rows.length) res.status(401).send("you don't have this contact")
+        if (!rows.length) {
+        res.status = 401;
+        res.render("contacts", {msg: "[err]you dont have this contact"})
+        }
         else {
           mySqlConnection.query(
             "UPDATE contacts SET name=?, phone=?, relationship=?, email=? WHERE contactID = ?",
             [name, phone, relationship, email, req.params.contactID],
             err => {
               if (err) res.status(500).send(err)
-              res.status(200).send("updated")
+              else {
+              res.status = 200
+                res.redirect("/users/contacts");
+              }
             },
           )
         }
       },
     )
-  } else res.status(401).send("login to update")
+  } else {
+  res.status = 401;
+  res.render("login", {msg: "[err]login first"})
+  }
 })
 router.get("/contacts/delete/:contactID", (req, res) => {
   if (req.session.user) {
@@ -170,14 +197,20 @@ router.get("/contacts/delete/:contactID", (req, res) => {
       [req.params.contactID, req.session.user.userID],
       (err, rows) => {
         if (err) res.status(500).send(err)
-        else if (!rows.length) res.status(401).send("you don't have this contact")
+        else if (!rows.length) {
+          res.status = 401;
+          res.redirect('contacts')
+        }
         else {
           mySqlConnection.query(
             "DELETE FROM contacts WHERE contactID = ?",
             [req.params.contactID],
-            (err, rows) => {
+            (err) => {
               if (err) res.status(500).send(err)
-              res.status(200).send(`deleted successfully`)
+              else {
+                res.status = 200;
+                res.redirect('/users/contacts');
+              }
             },
           )
         }

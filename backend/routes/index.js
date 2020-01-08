@@ -5,7 +5,6 @@ router.get('/', (req, res) => res.redirect('/users/register'));
 
 router.get('/dashboard', (req, res) => {
   if (req.session.user){
-    console.log(req.session);
     res.render('dashboard', {
       user: req.session.user,
     })}
