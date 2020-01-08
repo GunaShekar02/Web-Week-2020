@@ -8,8 +8,8 @@ let user
 router.get("/register", (req, res) => {
   if (!req.session.user) {
     res.statusCode = 200
-    res.send('register form will be here')
-  } else res.send("Not possible as you are logged in already")
+    res.status(200).send('register form will be here')
+  } else res.status(401).send("Not possible as you are logged in already")
 })
 
 router.post("/register", (req, res) => {
@@ -52,7 +52,7 @@ router.post("/register", (req, res) => {
 
 router.get("/login", (req, res) => {
   if (!req.session.user)
-    res.render("login")
+    res.status(200).send("login page here!")
   else res.status(401).send("nope, logout")
 })
 
