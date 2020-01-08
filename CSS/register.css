@@ -4,7 +4,7 @@ body{
 	background: url('../assets/bg_image.jpg') no-repeat;
 	height:100%;
 	background-attachment: fixed; 
-    background-position: center center;
+    background-position: center;
 	background-size: cover;
 	font-family: sans-serif;
 }
@@ -17,9 +17,9 @@ body{
 	top:65%;
 	left:50%;
 	position: absolute;
-    transform: translate(-50%,-50%);
-    box-sizing: border-box;
-    padding: 40px 30px;
+	transform: translate(-50%,-50%);
+	box-sizing: border-box;
+	padding: 40px 30px;
 	border-radius:20px;
 	margin-bottom: 30px;
 	display: flex;
