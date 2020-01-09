@@ -1,5 +1,7 @@
+<link rel="stylesheet" href="/css/contactsPageStyles.css">
+<button onclick="window.location.href = '/dashboard';">Go Back</button>
+<% let title="add contact"; %>
 <%= typeof msg != 'undefined' ? msg : '' %>
-
   <!-- Contact cards div -->
   <div class="contact-cards-container" id="contactContainer">
     <!-- Card container 1-->
@@ -17,7 +19,7 @@
         <span><b>Email ID</b></span>
         <span><%= contacts[i].email%></span>
       </div>
-      <button onclick="addContact(0,<%=i%>)">EDIT</button>
+      <button onclick="addContact(0,<%=i%>);">EDIT</button>
       <a href="/users/contacts/delete/<%= contacts[i].contactID %>">DELETE</a>
     </div>
     <%}%>
@@ -27,7 +29,8 @@
   <div class="modal-container" style="display: none;" id="modal-container">
     <div class="modal">
       <div style="display: flex; flex-direction: row; justify-content: space-between;">
-      <h2> ADD A NEW CONTACT(s)</h2>
+      <h2 id="form-title"></h2>
+      <!-- <h2> ADD A NEW CONTACT(s)</h2> -->
       <h2 onclick="closeModal()" style="cursor: pointer;">&times;</h2>
     </div>
       <form class="modal-form" method="POST" action="/users/contacts">
@@ -63,7 +66,7 @@
         <label>Email ID : </label>
         <input type="email" name="email" id="email" placeholder="Email ID" />
       </div>
-      <button type="submit">Add</button>
+      <button type="submit">Save</button>
       </form>
     </div>
   </div>
@@ -71,9 +74,11 @@
   <div style="display: flex; justify-content: center;">
     <button class="button" onclick="addContact(1)">Add Contact</button>
   </div>
+
 <script>const addContact = (val,i) => {
-  console.log(val, i);
-  
+  const title = document.getElementById('form-title');
+  if(!val){
+    title.innerHTML= "Edit contact";
     const modal = document.getElementById("modal-container");
     modal.style.display = "flex";
     modal.style.animation = "modalFadeIn 0.5s";
@@ -83,6 +88,16 @@
     document.getElementById("email").setAttribute("value", <%- JSON.stringify(contacts) %>[i].email);
     const form = document.getElementsByTagName("form")[0];
     form.action = `/users/contacts/${<%- JSON.stringify(contacts) %>[i].contactID}`
+  }
+  else{
+    title.innerHTML= "Add contact";
+    
+
+    const modal = document.getElementById("modal-container");
+    modal.style.display = "flex";
+    modal.style.animation = "modalFadeIn 0.5s";
+
+  }
   }
   
   const closeModal = () => {

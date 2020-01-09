@@ -1,8 +1,12 @@
+<link rel="stylesheet" href="/css/register.css">
+
+
 <%= typeof error != 'undefined' ? error : '' %>
-<img src="/bg.jpg" alt="jjk"id="user" >
 
 <form method="post" action="/users/login" id="myform" >
   <div class="registrationbox">
+      <img src="/images/user.jpg" id="user" >
+
   <h1>LOGIN Form</h1>
     <label>Email:
         <input type="email" name="email" placeholder="Enter Email" 
