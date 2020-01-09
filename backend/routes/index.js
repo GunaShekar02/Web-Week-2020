@@ -1,16 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => res.redirect('/users/register'));
+router.get('/', (req, res) => res.status(200).send('home'));
 
 router.get('/dashboard', (req, res) => {
-  if (req.session.user){
-    console.log(req.session);
-    res.render('dashboard', {
-      user: req.session.user,
-    })}
+  if (req.session.user)
+    res.status(200).send(req.session.user)
   else
-    res.redirect('/users/login?login+to+view');
+    res.status(401).send('login for this');
 });
 
 module.exports = router;

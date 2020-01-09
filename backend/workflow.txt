@@ -1,15 +1,74 @@
+npm init
+(starting point = app.js)
+--------------------------------
+npm install express body-parser
+=============  app.js  =============
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/', require('./routes/index.js'));
+
+app.use('/users', require('./routes/users.js'));
+
+app.get('*', (req, res) => {
+  res.status(404).send('You did something wrong!');
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+
+============= db/db.js ===========
+const mysql = require('mysql');
+
+const mySqlConnection = mysql.createConnection({
+  host: "localhost",
+  user: "",
+  password: "",
+  database: "webweek",
+});
+
+mySqlConnection.connect((err) => {
+  if (err) throw err;
+  console.log("Database Connected!");
+});
+
+module.exports = mySqlConnection;
+
+============= routes/index.js ============ 
+
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => res.status(200).send('home'));
+
+module.exports = router
+
+================ routes/users.js ===========
+npm install bcrypt
+
 const express = require("express")
 const router = express.Router()
 const bcrypt = require("bcrypt")
 const mySqlConnection = require("../db/db")
-
 let user
 
 router.get("/register", (req, res) => {
-  if (!req.session.user) {
     res.status(200).send('register form will be here')
-  } else res.status(401).send("Not possible as you are logged in already")
 })
+
+router.get("/login", (req, res) => {
+    res.status(200).send("login page here!")
+})
+
+module.exports = router
+
+----------------
 
 router.post("/register", (req, res) => {
   const { name, email, password, password2, phone } = req.body
@@ -49,11 +108,64 @@ router.post("/register", (req, res) => {
   )
 })
 
+---------------------
+
+router.post("/login", (req, res) => {
+  const { email, password } = req.body
+  mySqlConnection.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (err, rows) => {
+      if (err) res.status(500).send(err)
+      user = rows[0]
+      if (user) {
+        const result = bcrypt.compareSync(password, user.pwdHash)
+        if (result) {
+          res.status(200).send(user)
+        } else {
+          res.status(400).send("pwd incorrect")
+        }
+      } else {
+        res.status(400).send("email doesnot exist")
+      }
+    },
+  )
+})
+
+--------------------------
+
+router.get('/dashboard', (req, res) => {
+    res.status(200).send(req.session.user)
+});
+
+============== app.js ==========
+npm install express-session
+
+const session = require('express-session');
+
+app.use(session({
+  secret: 'seCReT',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 360000 }
+}));
+
+=============== /routes/users.js =========== 
+[REPLACE]
+
+router.get("/register", (req, res) => {
+  if (!req.session.user) {
+    res.status(200).send('register form will be here')
+  } else res.status(401).send("Not possible as you are logged in already")
+})
+------------------
+
 router.get("/login", (req, res) => {
   if (!req.session.user)
     res.status(200).send("login page here!")
   else res.status(401).send("nope, logout")
 })
+------------------
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body
@@ -78,7 +190,19 @@ router.post("/login", (req, res) => {
   )
 })
 
-router.get("/logout", (req, res, next) => {
+======== routes/index.js ===========
+[REPLACE]
+
+router.get('/dashboard', (req, res) => {
+  if (req.session.user)
+    res.status(200).send(req.session.user)
+  else
+    res.status(401).send('login for this');
+});
+
+================== routes/users.js ===========
+
+router.get("/logout", (req, res) => {
   if (req.session.user) {
     req.session.destroy(() => {
       res.status(200).send("logout success")
@@ -88,13 +212,18 @@ router.get("/logout", (req, res, next) => {
   }
 })
 
+// Login system ready!!!
+
+// contacts CRUD begin!!
+
+============ routes/users.js =========== 
 
 router.post("/contacts", (req, res) => {
   if (req.session.user) {
     const { name, phone, relationship, email } = req.body
     let errors = []
-    if (!name || (!phone && !relationship))
-      errors.push({ msg: "name or both phone numbers cannot be empty" })
+    if (!name || !phone )
+      errors.push({ msg: "name or phone number cannot be empty" })
     else {
       var sql = `INSERT INTO contacts (name, email, phone, relationship, userID) VALUES ?`
       const values = [
@@ -162,6 +291,7 @@ router.post("/contacts/:contactID", (req, res) => {
     )
   } else res.status(401).send("login to update")
 })
+
 router.get("/contacts/delete/:contactID", (req, res) => {
   if (req.session.user) {
     mySqlConnection.query(
@@ -200,5 +330,3 @@ router.post("/update", (req, res) => {
     )
   } else res.status(401).send("please login")
 })
-
-module.exports = router
