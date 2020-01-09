@@ -17,6 +17,11 @@ document.getElementById("button").addEventListener("click",(event)=>{
             alert("Please enter your email");
             event.preventDefault();
         }
+
+        else if(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/.test(email) === false) {
+            alert("Please enter a valid email");
+            event.preventDefault();
+        }
     
        else if(password==""){
             alert("Please enter a password");

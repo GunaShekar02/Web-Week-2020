@@ -69,14 +69,34 @@ const hideMobileMenu = () => {
 
 const addContact = () => {
   const modal = document.getElementById("modal-container");
+  console.log(modal);
   modal.style.display = "flex";
   modal.style.animation = "modalFadeIn 0.5s";
+  // modal.style.opacity = 0;
+  // const id = setInterval(() => {
+  //   modal.style.opacity = Number(window.getComputedStyle(modal).opacity) + 0.1;
+  //   if(modal.style.opacity === "1")
+  //     clearInterval(id);
+  // },100);
 }
 
 const closeModal = () => {
   const modal = document.getElementById("modal-container");
   modal.style.animation = "modalFadeOut 0.5s";
+  // modal.style.opacity = 1;
+  // const id = setInterval(() => {
+  //   console.log(modal.style.opacity);
+  //   modal.style.opacity = Number(window.getComputedStyle(modal).opacity) - 0.1;
+  //   if(modal.style.opacity === "0")
+  //     clearInterval(id);
+  // },100);
   setTimeout(() => {
     modal.style.display = "none";
-  }, 400);
+    // modal.style.opacity = 0;
+  }, 400); //Change to 1000 with intervals
 }
+
+// const addContact = () => {
+//   const modal = document.getElementsByClassName("modal-container")[0];
+//   console.log(modal);
+// }
