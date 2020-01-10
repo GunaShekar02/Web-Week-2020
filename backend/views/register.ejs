@@ -1,69 +1,34 @@
-<form action="/users/register" method="POST">
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input
-      type="name"
-      id="name"
-      name="name"
-      class="form-control"
-      placeholder="Enter Name"
+<link rel="stylesheet" href="/css/register.css">
+
+<%= typeof errors != 'undefined' ? JSON.stringify(errors) : '' %>
+
+<form method="post" action="/users/register" id="myform" >
+  <div class="registrationbox">
+  <img src="/images/user.jpg" id="user" >
+  <h1>Registration Form</h1>
+  <label>Username:
+      <input type="text" name="name" placeholder="Name" 
       value="<%= typeof name != 'undefined' ? name : '' %>"
-    />
+      required>
+  </label><br>
+          <label>Email:
+              <input type="email" name="email" placeholder="Enter Email" 
+                          value="<%= typeof email != 'undefined' ? email : '' %>"
+              required>
+          </label><br>
+
+    <label>Password:
+              <input type="Password" name="password" placeholder="Enter Password" required>
+          </label><br>
+    
+    <label>Confirm Password:
+              <input type="Password" name="password2" placeholder="Enter Password" required>
+          </label><br>
+    <label>Contact Number:</label>
+    <input type="text" name="phone" placeholder="Enter Your Phone Number" 
+    value="<%= typeof phone != 'undefined' ? phone : '' %>"
+    required><br>
+    <button type="submit" id="button" >Submit</button>
+  
   </div>
-  <div class="form-group">
-    <label for="city">CITY</label>
-    <input
-      type="name"
-      id="city"
-      name="city"
-      class="form-control"
-      placeholder="Enter city"
-      value="<%= typeof city != 'undefined' ? city : '' %>"
-    />
-  </div>
-  <div class="form-group">
-    <label for="phone">phone</label>
-    <input
-      type="name"
-      id="phone"
-      name="phone"
-      class="form-control"
-      placeholder="Enter phone"
-      value="<%= typeof phone != 'undefined' ? phone : '' %>"
-    />
-  </div>
-  <div >
-    <label for="email">Email</label>
-    <input
-      type="email"
-      id="email"
-      name="email"
-      placeholder="Enter Email"
-      value="<%= typeof email != 'undefined' ? email : '' %>"
-    />
-  </div>
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input
-      type="password"
-      id="password"
-      name="password"
-      placeholder="Create Password"
-      value="<%= typeof password != 'undefined' ? password : '' %>"
-    />
-  </div>
-  <div class="form-group">
-    <label for="password2">Confirm Password</label>
-    <input
-      type="password"
-      id="password2"
-      name="password2"
-      placeholder="Confirm Password"
-      value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
-    />
-  </div>
-  <button type="submit" >
-    Register
-  </button>
 </form>
-<p >Have An Account? <a href="./login">Login</a></p>

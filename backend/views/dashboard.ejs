@@ -1,83 +1,12 @@
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome <%= user.name %> <br> <%=user.email%> <br><%=user.phone%></p>
-<div><a href="/users/logout" class="btn btn-secondary">Logout</a>
+<link rel="stylesheet" href="/css/dashboard.css">
+
+<h1>Dashboard</h1>
+<div id="wrapper">
+    <div id="user-details">
+        <h2>Hi! <%= user.name %></h2>
+        <h3><%= user.phone%></h3>
+    </div>
+        <a href="/users/logout">Logout</a>
+        <a href="/users/contacts">Contacts</a>
+    
 </div>
-<br>
-
-  <!-- Trigger/Open The Modal -->
-<button id="myBtn">Edit Profile</button>
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    
-<form class="modal-form" action="/users/update%>" method="POST" >
-  <!-- <input name="userID", value=<%=user.userID%> type="hidden" /> -->
-  <div>
-    <label>Name : </label>
-    <input
-    value = <%= user.name%>
-      type="text"
-      name="name"
-      id="name"
-      placeholder="Enter Name"
-    />
-  </div>
-<div>
-  <label>Phone Number : </label>
-  <input
-  value = <%= user.phone %>
-    type="text"
-    name="phone1"
-    id="phone"
-    placeholder="Phone Number"
-  />
-</div>
-
-<button type="submit">save Contact</button>
-
-</form>
-
-  </div>
-
-</div>
-  <!-- <a href="#">Edit Profile</a> -->
-  <br>
-  <a href="#">Change Password</a>
-  <br>
-  <a href="/users/contacts">Add Contact</a>
-  <br>
-  <a href="/users/view">View contacts</a>
-  <br>
-
-
-  <script>
-    // Get the modal
-    var modal = document.getElementById("myModal");
-    
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-    
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    // When the user clicks the button, open the modal 
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-    
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-    </script>
