@@ -57,6 +57,8 @@ router.get("/login", (req, res) => {
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body
+  console.log(req.body);
+  console.log(req.query);
   mySqlConnection.query(
     "SELECT * FROM users WHERE email = ?",
     [email],
