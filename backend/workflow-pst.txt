@@ -1,0 +1,334 @@
+npm init
+(starting point = app.js)
+--------------------------------
+npm install express body-parser
+=============  app.js  =============
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/', require('./routes/index.js'));
+
+app.use('/users', require('./routes/users.js'));
+
+app.get('*', (req, res) => {
+  res.status(404).send('You did something wrong!');
+});
+
+const PORT = 5000;
+
+app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+
+============= db/db.js ===========
+npm install mysql
+const mysql = require('mysql');
+
+const mySqlConnection = mysql.createConnection({
+  host: "localhost",
+  user: "",
+  password: "",
+  database: "webweek",
+});
+
+mySqlConnection.connect((err) => {
+  if (err) res.status(500).send(err);
+  console.log("Database Connected!");
+});
+
+module.exports = mySqlConnection;
+
+============= routes/index.js ============ 
+
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => res.status(200).send('home-page'));
+
+module.exports = router
+
+================ routes/users.js ===========
+npm install bcrypt
+
+const express = require("express")
+const router = express.Router()
+const bcrypt = require("bcrypt")
+const mySqlConnection = require("../db/db")
+let user
+
+router.get("/register", (req, res) => {
+    res.status(200).send('register form will be here')
+})
+
+router.get("/login", (req, res) => {
+    res.status(200).send("login page here!")
+})
+
+module.exports = router
+
+----------------
+
+router.post("/register", (req, res) => {
+  const { name, email, password, password2, phone } = req.body
+  let errors = []
+
+  if (!name || !email || !password || !password2 || !phone) {
+    errors.push({ msg: "Please enter all fields" })
+  }
+
+  if (password != password2) {
+    errors.push({ msg: "Passwords do not match" })
+  }
+
+  if (password.length < 6) {
+    errors.push({ msg: "Password must be at least 6 characters" })
+  }
+  mySqlConnection.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (err, rows) => {
+      if (err) res.status(500).send(err)
+      if (rows.length) errors.push({ msg: "Email already exists" })
+      if (errors.length > 0) {
+        res.statusCode = 400
+        res.send(errors)
+      } else {
+        pwdHash = bcrypt.hashSync(password, 10)
+        var sql = `INSERT INTO users (name, email, phone, pwdHash) VALUES ?`
+        const values = [[name, email, phone, pwdHash]]
+
+        mySqlConnection.query(sql, [values], function(err) {
+          if (err) res.status(500).send(err)
+        })
+        res.status(200).send("successfully registered")
+      }
+    },
+  )
+})
+
+---------------------
+
+router.post("/login", (req, res) => {
+  const { email, password } = req.body
+  mySqlConnection.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (err, rows) => {
+      if (err) res.status(500).send(err)
+      user = rows[0]
+      if (user) {
+        const result = bcrypt.compareSync(password, user.pwdHash)
+        if (result) {
+          res.status(200).send(user)
+        } else {
+          res.status(400).send("pwd incorrect")
+        }
+      } else {
+        res.status(400).send("email doesnot exist")
+      }
+    },
+  )
+})
+
+----------------- routes/index.js---------
+
+router.get('/dashboard', (req, res) => {
+    res.status(200).send('dashboard')
+});
+
+============== app.js ==========
+npm install express-session
+
+const session = require('express-session');
+
+app.use(session({
+  secret: 'seCReT',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 3600000 }
+}));
+
+=============== /routes/users.js =========== 
+[REPLACE]
+
+
+router.get("/register", (req, res) => {
+  if (!req.session.user) {
+    res.status(200).send('register form will be here')
+  } else res.status(401).send("Not possible as you are logged in already")
+})
+------------------
+
+router.get("/login", (req, res) => {
+  if (!req.session.user)
+    res.status(200).send("login page here!")
+  else res.status(401).send("nope, logout")
+})
+------------------
+
+router.post("/login", (req, res) => {
+  const { email, password } = req.body
+  mySqlConnection.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (err, rows) => {
+      if (err) res.status(500).send(err)
+      user = rows[0]
+      if (user) {
+        const result = bcrypt.compareSync(password, user.pwdHash)
+        if (result) {
+          req.session.user = user
+          res.status(200).send(user)
+        } else {
+          res.status(400).send("pwd incorrect")
+        }
+      } else {
+        res.status(400).send("email doesnot exist")
+      }
+    },
+  )
+})
+
+======== routes/index.js ===========
+[REPLACE]
+
+router.get('/dashboard', (req, res) => {
+  if (req.session.user)
+    res.status(200).send(req.session.user)
+  else
+    res.status(401).send('login for this');
+});
+
+================== routes/users.js ===========
+
+router.get("/logout", (req, res) => {
+  if (req.session.user) {
+    req.session.destroy(() => {
+      res.status(200).send("logout success")
+    })
+  } else {
+    res.status(400).send("you are not logged in")
+  }
+})
+
+// Login system ready!!!
+
+// contacts CRUD begin!!
+
+============ routes/users.js =========== 
+
+router.post("/contacts", (req, res) => {
+  if (req.session.user) {
+    const { name, phone, relationship, email } = req.body
+    let errors = []
+    if (!name || !phone )
+      errors.push({ msg: "name or phone number cannot be empty" })
+    else {
+      var sql = `INSERT INTO contacts (name, email, phone, relationship, userID) VALUES ?`
+      const values = [
+        [name, email, phone, relationship, req.session.user.userID],
+      ]
+
+      mySqlConnection.query(sql, [values], err => {
+        if (err) res.status(500).send(err)
+        res.status(200).send("contact saved")
+      })
+    }
+  } else res.status(401).send("login to post")
+})
+
+router.get("/contacts", (req, res) => {
+  if (req.session.user) {
+    mySqlConnection.query(
+      "SELECT * FROM contacts WHERE userID = ?",
+      [req.session.user.userID],
+      (err, rows) => {
+        if (err) res.status(500).send(err)
+        req.session.contacts = rows
+        res.status(200).send(rows)
+      },
+    )
+  } else res.status(401).send("login to view")
+})
+
+router.get("/contacts/:contactID", (req, res) => {
+  if (req.session.user) {
+    mySqlConnection.query(
+      "SELECT * FROM contacts WHERE contactID = ? AND userID = ?",
+      [req.params.contactID, req.session.user.userID],
+      (err, rows) => {
+        if (err) res.status(500).send(err)
+        if (rows.length) res.status(200).send(rows[0])
+        else res.status(404).send("contact not found")
+      },
+    )
+  } else {
+    res.status(401).send("login first")
+  }
+})
+//edit contacts
+router.post("/contacts/:contactID", (req, res) => {
+  if (req.session.user) {
+    const { name, phone, relationship, email } = req.body
+    mySqlConnection.query(
+      "SELECT * FROM contacts WHERE contactID = ? AND userID = ?",
+      [req.params.contactID, req.session.user.userID],
+      (err, rows) => {
+        if (err) res.status(500).send(err)
+        if (!rows.length) res.status(401).send("you don't have this contact")
+        else {
+          mySqlConnection.query(
+            "UPDATE contacts SET name=?, phone=?, relationship=?, email=? WHERE contactID = ?",
+            [name, phone, relationship, email, req.params.contactID],
+            err => {
+              if (err) res.status(500).send(err)
+              res.status(200).send("updated")
+            },
+          )
+        }
+      },
+    )
+  } else res.status(401).send("login to update")
+})
+
+router.get("/contacts/delete/:contactID", (req, res) => {
+  if (req.session.user) {
+    mySqlConnection.query(
+      "SELECT * FROM contacts WHERE contactID = ? AND userID = ?",
+      [req.params.contactID, req.session.user.userID],
+      (err, rows) => {
+        if (err) res.status(500).send(err)
+        else if (!rows.length) res.status(401).send("you don't have this contact")
+        else {
+          mySqlConnection.query(
+            "DELETE FROM contacts WHERE contactID = ?",
+            [req.params.contactID],
+            (err, rows) => {
+              if (err) res.status(500).send(err)
+              res.status(200).send(`deleted successfully`)
+            },
+          )
+        }
+      },
+    )
+  } else {
+    res.status(401).send("login to perform this operation")
+  }
+})
+router.post("/update", (req, res) => {
+  if (req.session.user) {
+    const { name, phone } = req.body
+    mySqlConnection.query(
+      "UPDATE users SET name=?, phone=? WHERE userID = ?",
+      [name, phone, req.session.user.userID],
+      (err) => {
+        if (err) throw err
+        req.session.user = { ...req.session.user, ...req.body }
+        res.status(200).send(req.session.user)
+      },
+    )
+  } else res.status(401).send("please login")
+})
