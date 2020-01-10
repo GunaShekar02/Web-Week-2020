@@ -91,6 +91,12 @@
   }
   else{
     title.innerHTML= "Add contact";
+    document.getElementById("name").setAttribute("value", '');
+    document.getElementById("relationship").setAttribute("value", '');
+    document.getElementById("phone").setAttribute("value", '');
+    document.getElementById("email").setAttribute("value", '');
+    const form = document.getElementsByTagName("form")[0];
+    form.action = `/users/contacts`
     
 
     const modal = document.getElementById("modal-container");

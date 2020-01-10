@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="/css/register.css">
 
+<%= typeof errors != 'undefined' ? JSON.stringify(errors) : '' %>
+
 <form method="post" action="/users/register" id="myform" >
   <div class="registrationbox">
   <img src="/images/user.jpg" id="user" >

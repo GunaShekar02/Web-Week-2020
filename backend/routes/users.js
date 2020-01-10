@@ -52,7 +52,7 @@ router.post("/register", (req, res) => {
             res.send(err)
           }
         })
-        res.redirect("/users/login?registered+successfully")
+        res.render("login", {msg: "Registered successfully"})
       }
     },
   )
@@ -82,7 +82,7 @@ router.post("/login", (req, res) => {
           req.session.user = user
           res.redirect('/dashboard?login+success');
         } else {
-          res.render('login', { error: "passwords do not match", email });
+          res.render('login', { error: "Incorrect password", email });
         }
       } else {
         res.render('login', { error: "email doesnot exist" });
@@ -116,7 +116,7 @@ router.post("/contacts", (req, res) => {
 
       mySqlConnection.query(sql, [values], err => {
         if (err) res.status(500).send(err)
-        res.redirect("contacts")
+        res.redirect("/users/contacts?contact+added+successfully")
       })
     }
   } else {
@@ -134,7 +134,7 @@ router.get("/contacts", (req, res) => {
         if (err) {res.status(500).send(err)}
         else {
           res.status = 200
-          res.render('contacts', {contacts : rows, j:5,})
+          res.render('contacts', {contacts : rows})
         }
       },
     )
