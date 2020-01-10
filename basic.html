@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
-      body {
+      ol li {
         background: gray;
         margin-left: 300px;
         margin-right: 300px;
@@ -16,22 +16,25 @@
         color: yellow;
         cursor: pointer;
       }
-      .example {
+      .example2 {
         font-family: sans-serif;
         font-size: 35px;
+        color: red;
       }
     </style>
   </head>
   <body>
+    <div style="height: 100px; width: 100px; background-color: red;">
+
+    </div>
     <h1>This is a heading</h1>
     <h2>This is also a heading, but smaller.</h2>
     <h7>This is also a heading, a still smaller one.</h7>
     <p>This is an example of a paragraph tagAJBSFHF SDFKHF SJSDFB SDFJ BSDFJH FDJSN.</p>
     <p>
-      This example shows the use of <br />
-      break tag
+      This example shows the use of <br />break tag
     </p>
-    <p>This example shows the use of <b>strong DAJ</b> tag</p>
+    <p>This example shows the use of <strong>strong DAJ</strong> tag</p>
     <p>This example shows the use of <i>italic</i> tag</p>
     <p>This example shows the use of <sub>subscript</sub> tag</p>
     <h1>An example of Ordered list</h1>
@@ -48,7 +51,7 @@
         an ordered list!
       </li>
     </ol>
-    <h1>An example of Unordered list</h1>
+    <h1 class="example2">An example of Unordered list</h1>
     <ul>
       <li>
         This
@@ -67,10 +70,10 @@
     <br />
     <img src="assets/user.jpg" alt="image Example" />
     <br />
-    <p style="color: white; background-color: green;font-si" class="example">
+    <p id="example">
       This shows how inline styles work!
     </p>
-    <p id="example" class="example">This is how styling through ids work!!</p>
+    <p class="example2">This is how styling through ids work!!</p>
     <span style="background-color: red;">This is a span!</span>
   </body>
 </html>
